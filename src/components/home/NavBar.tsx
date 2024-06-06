@@ -1,17 +1,24 @@
 "use client";
 
-import { SignIn } from "../auth/signin-button"
-import { SignOut } from "../auth/signout-button"
-import { useSession } from "next-auth/react"
+import { SignIn } from "../auth/signin-button";
+import { SignOut } from "../auth/signout-button";
+import { useSession } from "next-auth/react";
 
 export const NavBar = () => {
-  const { status } = useSession();
+  const { status, data } = useSession();
 
   return (
     <nav>
-      <div>
-        {status === "authenticated" ? <SignOut /> : <SignIn />}
+      <div className="bg-gray-800 flex justify-end">
+        {status === "authenticated" ? (
+          <>
+            <span>{data.user?.name}</span>
+            <SignOut />
+          </>
+        ) : (
+          <SignIn />
+        )}
       </div>
     </nav>
-  )
-}
+  );
+};
